@@ -1,4 +1,3 @@
-const NotImplementedError = require('../errors/notimplemented.error');
 const { ProblemService } = require('../services');
 const { ProblemRepository } = require('../repositories');
 const { StatusCodes } = require('http-status-codes');
@@ -31,7 +30,7 @@ async function getProblem(req, res, next) {
         if (id.length !== 24) {
             return res.status(400).json({ message: 'Invalid problem ID. ID must be 24 characters long.' });
         }
-        
+
         const problem = await problemService.getProblem(req.params.id);
         return res.status(StatusCodes.OK).json({
             success: true,
@@ -60,7 +59,7 @@ async function getProblems(req, res, next) {
 
 async function deleteProblem(req, res, next) {
     try {
-       const deletedProblem = await problemService.deleteProblem(req.params.id);
+        const deletedProblem = await problemService.deleteProblem(req.params.id);
         return res.status(StatusCodes.OK).json({
             success: true,
             message: 'Successfully deleted the problem',
@@ -72,10 +71,15 @@ async function deleteProblem(req, res, next) {
     }
 }
 
-function updateProblem(req, res, next) {
+async function updateProblem(req, res, next) {
     try {
-        //nothing implemented
-        throw new NotImplementedError('updateProblem');
+        const response = await problemService.updateProblem(req.params.id, req.body);
+        return res.status(StatusCodes.OK).json({
+            success: true,
+            message: 'Successfully updated the problem',
+            error: {},
+            data: response
+        });
     } catch (error) {
         next(error);
     }
