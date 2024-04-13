@@ -6,6 +6,7 @@ const apiRouter = require('./routes');
 const errorHandler = require('./utils/errorHandler');
 const connectToDB = require('./config/db.config');
 
+const { Problem } = require('./models/index');
 
 const app = express();
 
@@ -13,7 +14,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.text());
 
-// If any request comes and route starts with /api, we map it to apiRouter
+// If any request comes and route starts with /api, we map it to apiRou ter
 app.use('/api', apiRouter);
 
 app.get('/ping', (req, res) => {
